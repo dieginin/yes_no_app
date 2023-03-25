@@ -6,10 +6,7 @@ import '/domain/entities/message.dart';
 class ChatProvider extends ChangeNotifier {
   final chatScrollController = ScrollController();
   final GetYesNoAnswer getYesNoAnswer = GetYesNoAnswer();
-  final List<Message> messageList = [
-    Message(text: 'Hola amor!', fromWho: FromWho.me),
-    Message(text: 'Ya regresaste del trabajo?', fromWho: FromWho.me),
-  ];
+  final List<Message> messageList = [];
 
   Future moveScrollToBottom() async {
     await Future.delayed(const Duration(milliseconds: 100));

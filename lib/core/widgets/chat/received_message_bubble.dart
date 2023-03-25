@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '/domain/entities/message.dart';
+
 class _ImageBubble extends StatelessWidget {
+  const _ImageBubble(this.imageUrl);
+
+  final String imageUrl;
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -13,7 +19,7 @@ class _ImageBubble extends StatelessWidget {
         bottomRight: Radius.circular(20),
       ),
       child: Image.network(
-        'https://yesno.wtf/assets/no/19-2062f4c91189b1f88a9e809c10a5b0f0.gif',
+        imageUrl,
         width: size.width * .7,
         height: 150,
         fit: BoxFit.cover,
@@ -32,7 +38,12 @@ class _ImageBubble extends StatelessWidget {
 }
 
 class ReceivedMessageBubble extends StatelessWidget {
-  const ReceivedMessageBubble({super.key});
+  const ReceivedMessageBubble({
+    super.key,
+    required this.message,
+  });
+
+  final Message message;
 
   @override
   Widget build(BuildContext context) {
@@ -51,18 +62,18 @@ class ReceivedMessageBubble extends StatelessWidget {
               bottomRight: Radius.circular(20),
             ),
           ),
-          child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Text(
-              'Hola Mundo',
-              style: TextStyle(
+              message.text,
+              style: const TextStyle(
                 color: Colors.white,
               ),
             ),
           ),
         ),
         const SizedBox(height: 2),
-        _ImageBubble(),
+        _ImageBubble(message.imageUrl!),
         const SizedBox(height: 10),
       ],
     );
