@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '/core/providers/chat_provider.dart';
 import '/core/widgets/chat/my_message_bubble.dart';
 import '/core/widgets/chat/received_message_bubble.dart';
 import '/core/widgets/shared/message_field_box.dart';
+import '/domain/entities/message.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
@@ -28,6 +31,8 @@ class ChatScreen extends StatelessWidget {
 class _ChatView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final chatProvider = context.watch<ChatProvider>();
+
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -35,9 +40,11 @@ class _ChatView extends StatelessWidget {
           children: [
             Expanded(
               child: ListView.builder(
-                itemCount: 100,
+                itemCount: chatProvider.messageList.length,
                 itemBuilder: (_, i) {
-                  return (i % 2 == 0) ? const ReceivedMessageBubble() : const MyMessageBubble();
+                  final message = chatProvider.messageList[i];
+
+                  return (message.fromWho == FromWho.received) ? const ReceivedMessageBubble() : MyMessageBubble(message: message);
                 },
               ),
             ),
